@@ -14,6 +14,6 @@ public class BodyController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	
+        transform.LookAt(fullBodyController.direction);
 	}
 }
