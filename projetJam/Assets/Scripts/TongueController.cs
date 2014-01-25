@@ -4,6 +4,8 @@ using System.Collections;
 public class TongueController : MonoBehaviour
 {
     private bool isCurrentlyShooting;
+    private bool isColliding = false;
+    private bool isRetracting = false;
 
     public float maxTongueDistance;
     public float tongueSpeed;
@@ -21,13 +23,12 @@ public class TongueController : MonoBehaviour
         if(isCurrentlyShooting == false)
         {
             transform.position = pawn.TongueSocket.transform.position;
-            if (Input.GetKeyDown("space"))
+            if (Input.GetKeyDown("space") && isColliding == false)
             {
                 isCurrentlyShooting = true;
                 pawn.SetLockAction(true, false);
                 rigidbody.drag = 0;
                 InvokeRepeating("ShootTongue", 0, tongueSmooth);
-            
             }
         }
 
@@ -47,6 +48,7 @@ public class TongueController : MonoBehaviour
         {
             CancelInvoke("ShootTongue");
             InvokeRepeating("RetractTongue", 0, tongueSmooth);
+            isRetracting = true;
         }
     }
 
@@ -61,15 +63,15 @@ public class TongueController : MonoBehaviour
 
     void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.tag == "Bounce" && isCurrentlyShooting == true)
+        if (target.gameObject.tag == "Bounce")
         {
-            CancelInvoke("ShootTongue");
-            InvokeRepeating("RetractTongue", 0, tongueSmooth);
-
-        }
-        else
-        {
-            print(target.gameObject.tag);
+            if (isCurrentlyShooting)
+            {
+                CancelInvoke("ShootTongue");
+                InvokeRepeating("RetractTongue", 0, tongueSmooth);
+                isRetracting = true;
+            }
+            isColliding = true;
         }
 
     }
@@ -83,12 +85,34 @@ public class TongueController : MonoBehaviour
             rigidbody.velocity = vect;
             
             isCurrentlyShooting = false;
+            isRetracting = false;
             pawn.SetLockAction(false, false);
         }
-        else
-        {
-            print(target.tag);
-        }
 
+    }
+
+    //Retard proofing
+    void OnTriggerExit(Collider target)
+    {
+        if (target.gameObject.tag == "TongueSocket" && isCurrentlyShooting == true && isRetracting == true)
+        {
+            Vector3 vect = new Vector3(0, 0, 0);
+            transform.position = pawn.TongueSocket.transform.position;
+            CancelInvoke("RetractTongue");
+            CancelInvoke("ShootTongue");
+            rigidbody.velocity = vect;
+
+            isRetracting = false;
+            isCurrentlyShooting = false;
+            pawn.SetLockAction(false, false);
+        }
+    }
+
+    void OnCollisionExit(Collision target)
+    {
+        if (target.gameObject.tag == "Bounce")
+        {
+            isColliding = false;
+        }
     }
 }
