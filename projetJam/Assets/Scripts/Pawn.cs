@@ -15,16 +15,17 @@ public class Pawn : MonoBehaviour
     {
         Bleu = 0,
         Rouge,
-        Jaune,
-        Orange,
-        Mauve,
-        Violet,
+        Vert,
+        Orange,      
     };
 
     bool lockAction = false;
 
-    //color of the player
+    //color of the pawn
     public pawnColor presentColorOfPawn;
+
+    //pawn score
+    private int scoreOfPawn = 0; 
     
 
     List<Vector3> respawnLocation;
@@ -44,6 +45,25 @@ public class Pawn : MonoBehaviour
     void Update() 
     {
 	}
+
+    //getter for score
+    public int getScorePawn()
+    {
+        return scoreOfPawn;
+    }
+
+    //setter for score
+    public void setScorePawn(int newScore)
+    {
+        scoreOfPawn = newScore;
+    }
+
+    //add pts to score
+    public void addPoints(int ptsToAdd)
+    {
+        scoreOfPawn += ptsToAdd;
+    }
+
     
     void OnCollisionEnter(Collision pOther)
     {

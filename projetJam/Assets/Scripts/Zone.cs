@@ -11,19 +11,24 @@ public class Zone : MonoBehaviour
     {
         Bleu = 0,
         Rouge,
-        Jaune,
+        Vert,
         Orange,
-        Mauve,
-        Violet,
     };
-
+    
     //List of zones in the level
     public List<Zone> listOfZones = new List<Zone>();
     //Time the zone will be active
-    public float zoneActiveTime;
+    public float zoneActiveTime = 15;
+    //Time remaining 
+    private float timeRemaing = 0;   
+    //Adjustement for point system
+    public int vitesseGainPtsSolo = 0;
+    //pts the pawn make for being in the zone
+    private int ptsForScoringPlayer;
     //Light over the zone
     public Light lightOfZone;
-
+    //the first zone to be light
+    public bool bFirstZone = false;
     //If zone is activated
     private bool bZoneActivated;
 
@@ -32,53 +37,128 @@ public class Zone : MonoBehaviour
 
     //The number of scoring player in the zone
     private int nbScoringPlayers;
-
+///////////////////////////////////////////////////////////////////////////////
     // Initializtion
     void Awake()
     {
 
     }
+///////////////////////////////////////////////////////////////////////////////
     // Use this for initialization
     void Start()
     {
         presentZoneColor = zoneColor.Bleu;
+        nbScoringPlayers = 0;
     }
-
+///////////////////////////////////////////////////////////////////////////////
     // Update is called once per frame
     void Update()
     {
-        //Display the number of scoring player
-        //Display the active time remaining
-    }
 
+        if (bFirstZone)
+        {
+            bFirstZone = false;
+            zoneActivated(0);
+        }
+
+        if (bZoneActivated )
+        {
+            //set the pts made by players
+            setPtsForThisFrame();
+            //Display the number of scoring player MAYBE
+
+            //Decrease time remaining
+            timeRemaing -= 1;
+            //Display the remainning time
+
+            // No time remainning 
+            if (timeRemaing == 0)
+            {
+                activateNewZone();
+            }
+        }
+    }
+///////////////////////////////////////////////////////////////////////////////
     // Activate the zone 
-    void zoneActivated()
+    public void zoneActivated(int previousZoneColor)
     {
+        //set the remaining time
+        timeRemaing = zoneActiveTime;
+        //set the color of the light
+        selectColor(previousZoneColor);    
+        //activate the zone
+        bZoneActivated = true;
     }
-
+///////////////////////////////////////////////////////////////////////////////
     // Random Selection of the color of the zone
-    void selectColor()
+    void selectColor(int previousZoneColor)
     {
-    }
+       int newColor = 0 ;
 
+        //random make sure its not the same as the last one
+       do
+       {
+           newColor = Random.Range(0, 4);
+       } while (newColor == previousZoneColor);
+
+        //set the color & applly it to the light
+       switch(newColor)
+       {
+           case 0:
+               presentZoneColor = zoneColor.Bleu;
+               lightOfZone.color = Color.blue;
+               break;
+           case 1:
+               presentZoneColor = zoneColor.Rouge;
+               lightOfZone.color = Color.red;
+               break;
+           case 2:
+               presentZoneColor = zoneColor.Vert;              
+               lightOfZone.color = Color.green;
+               break;
+           case 3:
+               presentZoneColor = zoneColor.Orange;
+               Color colorOrange = new Color(229, 147, 2, 255);
+               lightOfZone.color = colorOrange;
+               break;           
+       }
+
+        //activate the light
+       lightOfZone.enabled = true;
+    }
+///////////////////////////////////////////////////////////////////////////////
+    // Set the pts that the player will make this frame
+    void setPtsForThisFrame()
+    {
+        ptsForScoringPlayer = vitesseGainPtsSolo / nbScoringPlayers;
+    }
+///////////////////////////////////////////////////////////////////////////////
     // Choose randomly the new zone to be activatec
-    void activateNewZone(Zone pZoneCantBeActivated)
+    void activateNewZone()
     {
+        //number of zone in the level
+        int nbOfZone = listOfZones.Count;
+        //select the the zone to activate randomly
+        listOfZones[Random.Range(0, nbOfZone)].zoneActivated((int)presentZoneColor);
         //deactivate this zone
+        bZoneActivated = false;
         //player feed back zone deactivated
+        lightOfZone.enabled = false;
     }
-
+///////////////////////////////////////////////////////////////////////////////
     // When player enters trigger
     void OnTriggerEnter(Collider playerColl)
     {
         //if its a player
-        if (playerColl.gameObject.tag == "Player")
+        if (playerColl.gameObject.tag == "Player" /*&& bZoneActivated*/)
         {
             Pawn pawnInZone =  playerColl.gameObject.GetComponent<Pawn>();
            
             //if player is the right color break
             if ((int)pawnInZone.presentColorOfPawn == (int)presentZoneColor)
             {
+                //increase the number of player in the zone
+                nbScoringPlayers++;
                 Debug.Log("Player is of the right color");
             }
             else
@@ -87,7 +167,7 @@ public class Zone : MonoBehaviour
             }          
         }
     }
-
+///////////////////////////////////////////////////////////////////////////////
     // When the player is in the trigger
     void OnTriggerStay(Collider playerColl)
     {
@@ -99,15 +179,19 @@ public class Zone : MonoBehaviour
             //if player is the right color break
             if ((int)pawnInZone.presentColorOfPawn == (int)presentZoneColor)
             {
+                //increade the pts of the player
+                pawnInZone.addPoints(ptsForScoringPlayer);
                 Debug.Log("Player Is Gaining PTS");
             }           
         }
     }
-
+///////////////////////////////////////////////////////////////////////////////
     // When the player is exiting the trigger
     void OnTriggerExit(Collider playerColl)
     {
         //Player feed back left zone
         Debug.Log("You have left the zone");
+        //Decrease the number of scoring player in the zone
+        nbScoringPlayers--;
     }
 }
