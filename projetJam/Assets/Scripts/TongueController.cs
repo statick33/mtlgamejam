@@ -10,6 +10,7 @@ public class TongueController : MonoBehaviour
     public float maxTongueDistance;
     public float tongueSpeed;
     public float tongueSmooth;
+    public GameObject fruitSocket;
 
     Pawn pawn;
 
@@ -73,6 +74,22 @@ public class TongueController : MonoBehaviour
             }
             isColliding = true;
         }
+        else if (target.gameObject.tag == "Strawberry" && isCurrentlyShooting == true)
+        {
+            target.transform.parent = fruitSocket.transform;
+            print("TEST");
+            CancelInvoke("ShootTongue");
+            InvokeRepeating("RetractTongue", 0, tongueSmooth);
+            isRetracting = true;
+
+        }
+        else if (target.gameObject.tag == "LizardHead" && isCurrentlyShooting == true)
+        {
+            print("AVALE ");
+            fruitSocket.transform.DetachChildren();
+        }
+        
+        print(target.gameObject.tag);
 
     }
 
@@ -88,7 +105,6 @@ public class TongueController : MonoBehaviour
             isRetracting = false;
             pawn.SetLockAction(false, false);
         }
-
     }
 
     //Retard proofing
