@@ -9,7 +9,21 @@ public class Pawn : MonoBehaviour
         GrabDrop,Throw
     };
 
+    public enum pawnColor
+    {
+        Bleu = 0,
+        Rouge,
+        Jaune,
+        Orange,
+        Mauve,
+        Violet,
+    };
+
     bool lockAction = false;
+
+    //color of the player
+    public pawnColor presentColorOfPawn;
+    
 
     List<Vector3> respawnLocation;
 
@@ -21,14 +35,14 @@ public class Pawn : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-    
+        presentColorOfPawn = pawnColor.Bleu;
 	}
 
     // Update is called once per frame
     void Update() 
     {
 	}
-
+    
     void OnCollisionEnter(Collision pOther)
     {
   
