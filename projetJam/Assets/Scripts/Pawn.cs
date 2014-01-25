@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Pawn : MonoBehaviour 
 {
+    public GameObject TongueSocket;
+
     public enum PlayerAction
     {
         GrabDrop,Throw
