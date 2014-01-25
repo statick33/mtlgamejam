@@ -13,6 +13,9 @@ public class FullBodyController : MonoBehaviour
 
     public Pawn pawn;
 
+    public Vector3 direction;
+    private float directionBuffer = 10.0f;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -33,24 +36,28 @@ public class FullBodyController : MonoBehaviour
             // Up
             if (Input.GetButton(playerInput.GetInput(PlayerInput.Inputs.Up)))
             {
+                direction = new Vector3(0, 0, 1 * directionBuffer);
                 controller.Move(new Vector3(0, 0, movementSpeed));
             }
 
             // Down
             if (Input.GetButton(playerInput.GetInput(PlayerInput.Inputs.Down)))
             {
+                direction = new Vector3(0, 0, -1 * directionBuffer);
                 controller.Move(new Vector3(0, 0, -movementSpeed));
             }
 
             // Left
             if (Input.GetButton(playerInput.GetInput(PlayerInput.Inputs.Left)))
             {
+                direction = new Vector3(-1 * directionBuffer, 0, 0);
                 controller.Move(new Vector3(-movementSpeed, 0, 0));
             }
 
             // Right
             if (Input.GetButton(playerInput.GetInput(PlayerInput.Inputs.Right)))
             {
+                direction = new Vector3(1 * directionBuffer, 0, 0);
                 controller.Move(new Vector3(movementSpeed, 0, 0));
             }
         }
@@ -61,9 +68,19 @@ public class FullBodyController : MonoBehaviour
             float upDown;
             upDown = Input.GetAxis(playerInput.GetInput(PlayerInput.Inputs.UpDown));
 
+
             if (Mathf.Abs(upDown) < 0.2)
             {
                 upDown = 0;
+            }
+
+            if (upDown > 0)
+            {
+                direction = new Vector3(0, 0, -1 * directionBuffer);
+            }
+            else
+            {
+                direction = new Vector3(0, 0, 1 * directionBuffer);
             }
 
             controller.Move(new Vector3(0, 0, upDown * -movementSpeed));
@@ -75,6 +92,15 @@ public class FullBodyController : MonoBehaviour
             if (Mathf.Abs(leftRight) < 0.2)
             {
                 leftRight = 0;
+            }
+
+            if (leftRight > 0)
+            {
+                direction = new Vector3(1 * directionBuffer, 0, 0);
+            }
+            else
+            {
+                direction = new Vector3(-1 * directionBuffer, 0, 0);
             }
 
             controller.Move(new Vector3(leftRight * movementSpeed, 0, 0));

@@ -1,10 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-public class GameGUIStyle : MonoBehaviour 
+public class BodyController : MonoBehaviour 
 {
-
-    public GUIStyle style;
+    public FullBodyController fullBodyController;
 
 	// Use this for initialization
 	void Start () 
