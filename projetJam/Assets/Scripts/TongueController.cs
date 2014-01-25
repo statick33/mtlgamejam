@@ -46,14 +46,15 @@ public class TongueController : MonoBehaviour
         }
         else if (target.gameObject.tag == "Player")
         {
+            print("POWWOWOWOWOOWOWOWO");
             Vector3 vect = new Vector3(0, 0, 0);
             CancelInvoke("RetractTongue");
             rigidbody.velocity = vect;
 
-            vect.z = 1;
-            vect = vect + target.transform.position;
-            rigidbody.position = vect;
+
+            rigidbody.position = pawn.TongueSocket.transform.position;
             isCurrentlyShooting = false;
+            pawn.SetLockAction(false, false);
         }
         else
         {
