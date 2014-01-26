@@ -24,6 +24,8 @@ public class CharSelectGUI : GameGUI
     Texture2D cameleon4_pressRT;
     Texture2D cameleon4_ready;
 
+    Texture2D background;
+
 
     /* Settings */
     GUIStyle fontStyle = new GUIStyle();
@@ -83,6 +85,8 @@ public class CharSelectGUI : GameGUI
         listCamelionReady.Add((Texture2D)Resources.Load("cameleon2_ready"));
         listCamelionReady.Add((Texture2D)Resources.Load("cameleon3_ready"));
         listCamelionReady.Add((Texture2D)Resources.Load("cameleon4_ready"));
+
+        background = (Texture2D)Resources.Load("bg_startScreen");
 
         /* Settings */
         fontHeight = fontStyle.CalcHeight(new GUIContent("Random"), 1) + 7;
@@ -263,8 +267,7 @@ public class CharSelectGUI : GameGUI
     {
         /* Main container */
 
-        GUI.color = Color.white;
-        GUI.DrawTexture(mainContainerRect, whiteBox);
+        GUI.DrawTexture(mainContainerRect, background);
 
         for (int i = 0; i < 4; i++)
         {

@@ -140,6 +140,7 @@ public class Pawn : MonoBehaviour
     private void BackToIdle()
     {
         headAnim.Play("HeadIdle");
+        bodyAnim.Play("BodyIdle");
     }
 
     private void RetractTongue()
