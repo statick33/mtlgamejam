@@ -75,6 +75,7 @@ public class TongueController : MonoBehaviour
         }
         else if (target.gameObject.tag == "Strawberry" && isCurrentlyShooting == true)
         {
+            target.transform.position = fruitSocket.transform.position;
             target.transform.parent = fruitSocket.transform;
             //print("TEST");
             CancelInvoke("ShootTongue");
