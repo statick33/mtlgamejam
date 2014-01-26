@@ -24,7 +24,5 @@ public class BodyController : MonoBehaviour
             rotation.x = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
         }
-
-        Debug.Log(direction);
     }
 }

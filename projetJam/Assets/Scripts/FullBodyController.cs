@@ -25,12 +25,13 @@ public class FullBodyController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () 
     {
+        direction = new Vector3(0, 0, 0);
+
+
         if (pawn.GetLockAction())
         {
             return;
-        }
-
-        direction = new Vector3(0, 0, 0);
+        }     
 
         // PC
         if (playerInput.controller == PlayerInput.Controller.PC)
