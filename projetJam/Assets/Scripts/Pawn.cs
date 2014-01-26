@@ -42,6 +42,20 @@ public class Pawn : MonoBehaviour
 
     Vector3 lastPawnLocation = new Vector3();
 
+
+    //Color system
+    [System.Serializable]
+    public class skinProperties
+    {
+        public Color greenSkinColor;
+        public Color orangeSkinColor;
+        public Color blueSkinColor;
+        public Color redSkinColor;
+    }
+
+    //Lizard color properties
+    public skinProperties colorSkinProperties = new skinProperties();
+
     void Awake()
     {
         headAnim = headAnimObj.GetComponent<Animation>();
@@ -54,6 +68,7 @@ public class Pawn : MonoBehaviour
     {
         presentColorOfPawn = pawnColor.Bleu;
         lastPawnLocation = transform.position;
+
 	}
 
     // Update is called once per frame
@@ -182,6 +197,35 @@ public class Pawn : MonoBehaviour
         SetLockAction(true,true);
         tlbCamera.Shake();
         Invoke("Respawn", 0.5f);*/
+    }
+
+    //Set the lizard color
+    public void SetColor(string color)
+    {
+        Color newColor = new Color();
+
+        switch (color)
+        {
+            case "blue":
+                newColor = colorSkinProperties.blueSkinColor;
+                presentColorOfPawn = pawnColor.Bleu;
+            break;
+            case "green":
+                newColor = colorSkinProperties.greenSkinColor;
+                presentColorOfPawn = pawnColor.Vert;
+            break;
+            case "red":
+                newColor = colorSkinProperties.redSkinColor;
+                presentColorOfPawn = pawnColor.Rouge;
+            break;
+            case "orange":
+                newColor = colorSkinProperties.orangeSkinColor;
+                presentColorOfPawn = pawnColor.Orange;
+            break;
+        }
+
+        transform.GetChild(0).GetChild(0).GetChild(1).renderer.material.color = newColor;
+        transform.GetChild(0).GetChild(1).GetChild(0).GetChild(3).renderer.material.color = newColor;
     }
 
     private void Respawn()
