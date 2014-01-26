@@ -10,7 +10,7 @@ public class GUIManager : MonoBehaviour
     public static GUIStyle style;
     public enum GUICommand
     {
-        StartGame, Play, Options, Quit, Ready, Empty
+        StartGame, Play, Options, Quit, Ready, Empty, InGame, Tally
     }
     public enum DistanceType 
     {
@@ -60,6 +60,8 @@ public class GUIManager : MonoBehaviour
         dictGUI.Add(GUICommand.Play, new CharSelectGUI());
         dictGUI.Add(GUICommand.Ready, new LevelSelectGUI());
         dictGUI.Add(GUICommand.Empty, new EmptyGUI());
+        dictGUI.Add(GUICommand.InGame, new InGameGUI());
+        dictGUI.Add(GUICommand.Tally, new TallyGUI());
 
         if (Application.loadedLevelName == "StartGame")
         {

@@ -139,12 +139,12 @@ public class CharSelectGUI : GameGUI
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // ADD TO FULL GAME
-            if (gameSettings.GetNbPlayerReady() < 2)
+            if (gameSettings.GetNbPlayerReady() < 1)
             {
                 return;
             }
 
-            SwapGUI(GUIManager.GUICommand.Empty);
+            SwapGUI(GUIManager.GUICommand.InGame);
             Application.LoadLevel("level_01");
             return;
         }
@@ -228,12 +228,12 @@ public class CharSelectGUI : GameGUI
                 if (grabAxisValue >= 0.1 && listLastGrabAxisValue[i - 1] < 0.1)
                 {
                     // ADD TO FULL GAME
-                    if (gameSettings.GetNbPlayerReady() < 2)
+                    if (gameSettings.GetNbPlayerReady() < 1)
                     {
                         return;
                     }
 
-                    SwapGUI(GUIManager.GUICommand.Empty);
+                    SwapGUI(GUIManager.GUICommand.InGame);
                     Application.LoadLevel("level_01");
                     return;
                 }
