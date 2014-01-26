@@ -14,6 +14,13 @@ public class BodyController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        transform.LookAt(fullBodyController.direction);
+        Vector3 direction = fullBodyController.direction;
+        if (direction != Vector3.zero)
+        {
+            direction.y = transform.position.y;
+
+            Quaternion rotation = Quaternion.LookRotation(transform.position + direction - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3);
+        }
 	}
 }
