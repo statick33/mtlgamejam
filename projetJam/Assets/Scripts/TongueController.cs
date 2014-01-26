@@ -73,15 +73,13 @@ public class TongueController : MonoBehaviour
             }
             isColliding = true;
         }
-        else if (target.gameObject.tag == "Strawberry" && isCurrentlyShooting == true)
+        else if ((target.gameObject.tag == "Strawberry" || target.gameObject.tag == "Grape" || target.gameObject.tag == "Orange" || target.gameObject.tag == "Kiwi") && isCurrentlyShooting == true)
         {
             target.transform.position = fruitSocket.transform.position;
             target.transform.parent = fruitSocket.transform;
-            //print("TEST");
             CancelInvoke("ShootTongue");
             InvokeRepeating("RetractTongue", 0, tongueSmooth);
             isRetracting = true;
-
         }
         else if (target.gameObject.tag == "LizardHead" && isCurrentlyShooting == true && fruitSocket.transform.childCount > 0)
         {
