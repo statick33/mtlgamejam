@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Pawn : MonoBehaviour 
+public class Pawn : MonoBehaviour
 {
     public GameObject TongueSocket;
 
@@ -16,7 +16,7 @@ public class Pawn : MonoBehaviour
         Bleu = 0,
         Rouge,
         Vert,
-        Orange,      
+        Orange,
     };
 
     bool lockAction = false;
@@ -25,8 +25,8 @@ public class Pawn : MonoBehaviour
     public pawnColor presentColorOfPawn;
 
     //pawn score
-    private int scoreOfPawn = 0; 
-    
+    private int scoreOfPawn = 0;
+
 
     List<Vector3> respawnLocation;
 
@@ -37,6 +37,8 @@ public class Pawn : MonoBehaviour
     private Animation bodyAnim;
 
     private CharacterController controller;
+
+    private static int lizardId;
 
     public FullBodyController bodyController;
 
@@ -56,6 +58,11 @@ public class Pawn : MonoBehaviour
     //Lizard color properties
     public skinProperties colorSkinProperties = new skinProperties();
 
+    public Texture Texture1;
+    public Texture Texture2;
+    public Texture Texture3;
+    public Texture Texture4;
+
     void Awake()
     {
         headAnim = headAnimObj.GetComponent<Animation>();
@@ -63,16 +70,17 @@ public class Pawn : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start()
     {
-        presentColorOfPawn = pawnColor.Bleu;
+        SetColor("green");
+        SetTexture();
+        lizardId++;
         lastPawnLocation = transform.position;
-
-	}
+    }
 
     // Update is called once per frame
-    void Update() 
+    void Update()
     {
         if (bodyController.direction != Vector3.zero)
         {
@@ -93,7 +101,7 @@ public class Pawn : MonoBehaviour
 
         lastPawnLocation = transform.position;
 
-	}
+    }
 
     //getter for score
     public int getScorePawn()
@@ -113,10 +121,10 @@ public class Pawn : MonoBehaviour
         scoreOfPawn += ptsToAdd;
     }
 
-    
+
     void OnCollisionEnter(Collision pOther)
     {
-  
+
     }
 
     public void Action(PlayerAction pAction)
@@ -160,15 +168,15 @@ public class Pawn : MonoBehaviour
 
     private void RetractTongue()
     {
- 
+
     }
 
     private void RetractTongueFruit()
     {
- 
+
     }
 
-    public void SetLockAction(bool pLock,bool pDropObject)
+    public void SetLockAction(bool pLock, bool pDropObject)
     {
         if (pLock)
         {
@@ -209,28 +217,50 @@ public class Pawn : MonoBehaviour
             case "blue":
                 newColor = colorSkinProperties.blueSkinColor;
                 presentColorOfPawn = pawnColor.Bleu;
-            break;
+                break;
             case "green":
                 newColor = colorSkinProperties.greenSkinColor;
                 presentColorOfPawn = pawnColor.Vert;
-            break;
+                break;
             case "red":
                 newColor = colorSkinProperties.redSkinColor;
                 presentColorOfPawn = pawnColor.Rouge;
-            break;
+                break;
             case "orange":
                 newColor = colorSkinProperties.orangeSkinColor;
                 presentColorOfPawn = pawnColor.Orange;
-            break;
+                break;
         }
 
         transform.GetChild(0).GetChild(0).GetChild(1).renderer.material.color = newColor;
         transform.GetChild(0).GetChild(1).GetChild(0).GetChild(3).renderer.material.color = newColor;
     }
 
+    //Set the lizard texture
+    public void SetTexture()
+    {
+
+        Material skinMaterial = transform.GetChild(0).GetChild(0).GetChild(1).renderer.material;
+        switch (lizardId)
+        {
+            case 0:
+                skinMaterial.mainTexture = Texture1;
+                break;
+            case 1:
+                skinMaterial.mainTexture = Texture2;
+                break;
+            case 2:
+                skinMaterial.mainTexture = Texture3;
+                break;
+            case 3:
+                skinMaterial.mainTexture = Texture4;
+                break;
+        }
+    }
+
     private void Respawn()
     {
-       
+
     }
 
     private Vector3 GetRespawnLocation()
