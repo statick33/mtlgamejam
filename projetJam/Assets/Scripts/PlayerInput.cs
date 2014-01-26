@@ -61,12 +61,11 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButtonDown(GetInput(PlayerInput.Inputs.GrabRelease)) || ((controller == PlayerInput.Controller.Xbox) && grabAxisValue >= 0.1 && lastGrabAxisValue < 0.1))
         {
-            pawn.Action(Pawn.PlayerAction.GrabDrop);
-
+            //pawn.Action(Pawn.PlayerAction.GrabDrop);
         }
         else if (Input.GetButtonDown(GetInput(PlayerInput.Inputs.Throw)) || ((controller == PlayerInput.Controller.Xbox) && throwAxisValue >= 0.1 && lastThrowAxisValue < 0.1))
         {
-            pawn.Action(Pawn.PlayerAction.Throw);
+            //pawn.Action(Pawn.PlayerAction.Throw);
         }
 
         lastGrabAxisValue = grabAxisValue;
@@ -107,7 +106,6 @@ public class PlayerInput : MonoBehaviour
         else if (controller == Controller.Xbox)
         {
             // Ex : Controller2_Throw --> Controller player2 throw
-
             return "Controller" + player + "_" + pRequestedInput;
         }
         return "";

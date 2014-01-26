@@ -44,6 +44,7 @@ ModelImporter:
     4300004: lizard_head
     7400000: HeadDeath
     9500000: //RootNode
+    11100000: //RootNode
     13700000: Lizard_eyeL
     13700002: lizard_eyeR
     13700004: lizard_head
@@ -59,15 +60,15 @@ ModelImporter:
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
-    animationWrapMode: 0
+    animationWrapMode: 1
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
       name: HeadDeath
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 72
-      wrapMode: 0
+      lastFrame: 60
+      wrapMode: 1
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -159,6 +160,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   additionalBone: 0
   userData: 

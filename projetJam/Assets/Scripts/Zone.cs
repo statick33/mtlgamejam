@@ -130,7 +130,10 @@ public class Zone : MonoBehaviour
     // Set the pts that the player will make this frame
     void setPtsForThisFrame()
     {
-        ptsForScoringPlayer = vitesseGainPtsSolo / nbScoringPlayers;
+        if (nbScoringPlayers != 0)
+        {
+            ptsForScoringPlayer = vitesseGainPtsSolo / nbScoringPlayers;
+        }
     }
 ///////////////////////////////////////////////////////////////////////////////
     // Choose randomly the new zone to be activatec

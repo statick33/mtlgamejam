@@ -13,6 +13,11 @@ public class TongueController : MonoBehaviour
     public GameObject fruitSocket;
 
     public Pawn pawn;
+    public PlayerInput input;
+
+    //Input
+    float lastGrabAxisValue = 0;
+    float lastThrowAxisValue = 0;
 
     void Start()
     {
@@ -22,13 +27,47 @@ public class TongueController : MonoBehaviour
     {
         if(isCurrentlyShooting == false)
         {
+            float grabAxisValue = 0;
+            float throwAxisValue = 0;
+
             transform.position = pawn.TongueSocket.transform.position;
-            if (Input.GetKeyDown("space") && isColliding == false)
+
+            if (input.controller == PlayerInput.Controller.PC)
             {
-                isCurrentlyShooting = true;
-                pawn.SetLockAction(true, false);
-                rigidbody.drag = 0;
-                InvokeRepeating("ShootTongue", 0, tongueSmooth);
+                if (Input.GetKeyDown("space") && isColliding == false)
+                {
+                    isCurrentlyShooting = true;
+                    pawn.SetLockAction(true, false);
+                    rigidbody.drag = 0;
+                    InvokeRepeating("ShootTongue", 0, tongueSmooth);
+                    pawn.Action(Pawn.PlayerAction.LaunchTongue);
+                }
+            }
+            else if (input.controller == PlayerInput.Controller.Xbox)
+            {
+                float axisValue = Input.GetAxis(input.GetInput(PlayerInput.Inputs.GrabRelease2));
+
+                if (axisValue > 0)
+                {
+                    grabAxisValue = axisValue;
+                    throwAxisValue = 0;
+                }
+                else
+                {
+                    grabAxisValue = 0;
+                    throwAxisValue = Mathf.Abs(axisValue);
+                }
+
+                if(throwAxisValue >= 0.1 && lastThrowAxisValue < 0.1)
+                {
+                    isCurrentlyShooting = true;
+                    pawn.SetLockAction(true, false);
+                    rigidbody.drag = 0;
+                    InvokeRepeating("ShootTongue", 0, tongueSmooth);
+                    pawn.Action(Pawn.PlayerAction.LaunchTongue);
+                }
+
+                lastThrowAxisValue = throwAxisValue;
             }
         }
 

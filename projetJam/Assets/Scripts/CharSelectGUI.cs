@@ -1,11 +1,29 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CharSelectGUI : GameGUI
 {
     Texture2D mouseIcon;
     Texture2D xboxIcon;
     Texture2D whiteBox;
+
+    Texture2D pressStart;
+
+    Texture2D pressLT;
+
+    Texture2D cameleon1_pressRT;
+    Texture2D cameleon1_ready;
+
+    Texture2D cameleon2_pressRT;
+    Texture2D cameleon2_ready;
+
+    Texture2D cameleon3_pressRT;
+    Texture2D cameleon3_ready;
+
+    Texture2D cameleon4_pressRT;
+    Texture2D cameleon4_ready;
+
 
     /* Settings */
     GUIStyle fontStyle = new GUIStyle();
@@ -18,7 +36,7 @@ public class CharSelectGUI : GameGUI
     float mainContainerWidht;
     float mainContainerHeight;
 
-    float mainContrainerWidthBuffer;
+    float mainContrainerHeightBuffer;
     float mainContainerHeightBuffer;
 
     Rect mainContainerRect;
@@ -28,6 +46,15 @@ public class CharSelectGUI : GameGUI
     float playerContainerWidth;
     float playerContainerHeight;
     float playerContainerTopMargin;
+
+    List<Texture2D> listCamelionPressRt = new List<Texture2D>();
+    List<Texture2D> listCamelionReady = new List<Texture2D>();
+
+    List<float> listLastThrowAxisValue = new List<float>();
+    List<float> listLastGrabAxisValue = new List<float>();
+
+
+    int pcPlayerSlot;
 
     public override void Awake()
     {
@@ -42,25 +69,64 @@ public class CharSelectGUI : GameGUI
         xboxIcon = (Texture2D)Resources.Load("xboxIcon");
         whiteBox = (Texture2D)Resources.Load("whiteBox");
 
+        pressStart = (Texture2D)Resources.Load("press_start");
+        pressLT = (Texture2D)Resources.Load("press_LT");
+
+        
+        listCamelionPressRt.Add((Texture2D)Resources.Load("cameleon1_pressRT"));
+        listCamelionPressRt.Add((Texture2D)Resources.Load("cameleon2_pressRT"));
+        listCamelionPressRt.Add((Texture2D)Resources.Load("cameleon3_pressRT"));
+        listCamelionPressRt.Add((Texture2D)Resources.Load("cameleon4_pressRT"));
+
+        
+        listCamelionReady.Add((Texture2D)Resources.Load("cameleon1_ready"));
+        listCamelionReady.Add((Texture2D)Resources.Load("cameleon2_ready"));
+        listCamelionReady.Add((Texture2D)Resources.Load("cameleon3_ready"));
+        listCamelionReady.Add((Texture2D)Resources.Load("cameleon4_ready"));
+
         /* Settings */
         fontHeight = fontStyle.CalcHeight(new GUIContent("Random"), 1) + 7;
 
         /* Main container */
-        mainContainerLeftMargin = GUIManager.ResizeGUI(0.1f, GUIManager.DistanceType.Width);
-        mainContainerTopMargin = GUIManager.ResizeGUI(0.2f, GUIManager.DistanceType.Height);
-        mainContainerWidht = GUIManager.ResizeGUI(0.8f, GUIManager.DistanceType.Width);
-        mainContainerHeight = GUIManager.ResizeGUI(0.6f, GUIManager.DistanceType.Height);
+        mainContainerLeftMargin = 0;
+        mainContainerTopMargin = 0;
+        mainContainerWidht = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Width);
+        mainContainerHeight = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Height);
 
-        mainContrainerWidthBuffer = GUIManager.ResizeGUI(0.025f, GUIManager.DistanceType.Width);
-        mainContainerHeightBuffer = GUIManager.ResizeGUI(0.05f, GUIManager.DistanceType.Height);
+        mainContrainerHeightBuffer = 0.0f;
+        mainContainerHeightBuffer = GUIManager.ResizeGUI(0.01f, GUIManager.DistanceType.Height);
 
         mainContainerRect = new Rect(mainContainerLeftMargin, mainContainerTopMargin, mainContainerWidht, mainContainerHeight);
 
         /* Player container */
-        playerContainerOffset = GUIManager.ResizeGUI(0.2f, GUIManager.DistanceType.Width);
+        playerContainerOffset = 128.0f;
         playerContainerTopMargin = mainContainerTopMargin + mainContainerHeightBuffer;
-        playerContainerWidth = GUIManager.ResizeGUI(0.15f, GUIManager.DistanceType.Width);
-        playerContainerHeight = GUIManager.ResizeGUI(0.5f, GUIManager.DistanceType.Height);
+        playerContainerWidth = GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width);
+        playerContainerHeight = GUIManager.ResizeGUI(0.20f, GUIManager.DistanceType.Height);
+
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+        listLastThrowAxisValue.Add(0);
+
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
+        listLastGrabAxisValue.Add(0);
     }
 
     // Update is called once per frame
@@ -84,6 +150,10 @@ public class CharSelectGUI : GameGUI
             // There is already a PC player
             if (gameSettings.GetIsPCPlayerActive() == true)
             {
+                PlayerSettings playerSet = gameSettings.GetPlayerSettings(pcPlayerSlot);
+                playerSet.SetReady(true);
+                gameSettings.ChangePlayerSettings(playerSet, pcPlayerSlot);
+
                 return;
             }
 
@@ -93,53 +163,96 @@ public class CharSelectGUI : GameGUI
                 return;
             }
 
-            PlayerSettings playerSettings = new PlayerSettings();
-            playerSettings.SetCharacter(PlayerSettings.Character.Alfredo);
-            playerSettings.SetInput(PlayerInput.Controller.PC);
-            playerSettings.SetControllerNumber(25);
-            playerSettings.SetReady(true);
+            if (gameSettings.GetPlayerSettings(playerSlot).GetControllerNumber() == 0)
+            {
+                PlayerSettings playerSettings = new PlayerSettings();
+                playerSettings.SetCharacter(PlayerSettings.Character.Alfredo);
+                playerSettings.SetInput(PlayerInput.Controller.PC);
+                playerSettings.SetControllerNumber(25);
 
-            gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
-        }
+                pcPlayerSlot = playerSlot;
+
+                gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+            }    
+       }
 
         // Controller detection
         for (int i = 1; i <= 11; i++)
         {
-            if (Input.GetButtonDown("Controller" + i + "_Detect"))
+            float axisValue = Input.GetAxis("Controller"+i+"_GrabRelease2");
+
+            float grabAxisValue = 0;
+            float throwAxisValue = 0;
+
+            if (axisValue > 0)
             {
-                // There is already a PC player
+                grabAxisValue = axisValue;
+                throwAxisValue = 0;
+            }
+            else
+            {
+                grabAxisValue = 0;
+                throwAxisValue = Mathf.Abs(axisValue);
+            }
+
+            if (grabAxisValue >= 0.1 && listLastGrabAxisValue[i - 1] < 0.1)
+            {
+                // ADD TO FULL GAME
+                if (gameSettings.GetNbPlayerReady() < 1)
+                {
+                    return;
+                }
+
+                SwapGUI(GUIManager.GUICommand.Empty);
+                Application.LoadLevel("level_01");
+                return;
+            }
+            
+            if (throwAxisValue >= 0.1 && listLastThrowAxisValue[i - 1] < 0.1)
+            {
+                // There is already a player
                 if (gameSettings.GetIsControllerActive(i) == true)
                 {
+                    PlayerSettings playerSet = gameSettings.GetPlayerSettings(gameSettings.ControllerNumberToPlayerNumber(i));
+                    playerSet.SetReady(true);
+                    gameSettings.ChangePlayerSettingsByControllerNumber(playerSet, i);
                     return;
                 }
 
                 Debug.Log("Controller " + i + " activated");
 
                 int playerSlot = gameSettings.GetNextAvailableSlot();
-                
+
 
                 if (playerSlot == -1)
                 {
                     return;
                 }
 
-                PlayerSettings playerSettings = new PlayerSettings();
-                playerSettings.SetCharacter(PlayerSettings.Character.Louis);
-                playerSettings.SetInput(PlayerInput.Controller.Xbox);
-                playerSettings.SetControllerNumber(i);
-                playerSettings.SetReady(true);
+                if (gameSettings.GetPlayerSettings(i).GetControllerNumber() == 0)
+                {
+                    PlayerSettings playerSettings = new PlayerSettings();
+                    playerSettings.SetCharacter(PlayerSettings.Character.Louis);
+                    playerSettings.SetInput(PlayerInput.Controller.Xbox);
+                    playerSettings.SetControllerNumber(i);
 
-                gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+                    gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+                }
             }
+
+            listLastThrowAxisValue[i - 1] = throwAxisValue;
+            listLastGrabAxisValue[i - 1] = grabAxisValue;
+
+            /*
+            if (Input.GetButtonDown("Controller" + i + "_Detect"))
+            {
+                
+            }*/
         }
     }
 
     void OnGUI()
     {
-
-        /* Temp variable */
-        string text = "";
-
         /* Main container */
 
         GUI.color = Color.white;
@@ -148,76 +261,52 @@ public class CharSelectGUI : GameGUI
         for (int i = 0; i < 4; i++)
         {
             /* Player container */
-            float playerContainerLeftMargin;
-            playerContainerLeftMargin = mainContainerLeftMargin + mainContrainerWidthBuffer + (i * playerContainerOffset);
+            float playerContainerTopMargin;
+            playerContainerTopMargin = (i * playerContainerOffset);
 
-            GUI.color = Color.red;
-            Rect playerContainerRect = new Rect(playerContainerLeftMargin, playerContainerTopMargin, playerContainerWidth, playerContainerHeight);
-            GUI.DrawTexture(playerContainerRect, whiteBox);
+            Texture2D readyTextutre;
+            if (gameSettings.GetPlayerSettings(i + 1).GetControllerNumber() != 0)
+            {
+                if (gameSettings.GetPlayerSettings(i + 1).GetReady())
+                {
+                    readyTextutre = listCamelionReady[i];
+                }
+                else
+                {
+                    readyTextutre = listCamelionPressRt[i];
+                }
+            }
+            else
+            {
+                readyTextutre = pressStart;
+            }  
+
+            //GUI.color = Color.red;
+            Rect playerContainerRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width), playerContainerTopMargin, 256, 128);
+            GUI.DrawTexture(playerContainerRect, readyTextutre);
 
             /* Player number */
             float playerNumberTopMargin;
             playerNumberTopMargin = playerContainerTopMargin + (playerContainerHeight * 0.7f);
 
-            GUI.color = Color.green;
-            Rect playerNumberRect = new Rect(playerContainerLeftMargin, playerNumberTopMargin, playerContainerWidth * 0.3f, playerContainerHeight * 0.1f);
-            GUI.DrawTexture(playerNumberRect, whiteBox);
-
-            GUI.color = Color.black;
-            text = (i+1).ToString();
-            GUI.Label(GUIManager.CenteredGUI(playerNumberRect, fontStyle.CalcSize(new GUIContent(text)).x, fontHeight), text);
-
             /* Player input (PC or Xbox) */
             float playerInputLeftMargin;
-            playerInputLeftMargin = playerContainerLeftMargin + (playerContainerWidth * 0.3f);
+            playerInputLeftMargin = playerContainerTopMargin + (playerContainerWidth * 0.3f);
          
-            GUI.color = Color.blue;
-            Rect playerInputRect = new Rect(playerInputLeftMargin, playerNumberTopMargin, playerContainerWidth * 0.7f, playerContainerHeight * 0.1f);
-            GUI.DrawTexture(playerInputRect, whiteBox);
-
-            GUI.color = Color.white;
-            if (gameSettings.GetPlayerSettings(i + 1).GetInput() == PlayerInput.Controller.PC)
-            {
-                GUI.DrawTexture(GUIManager.CenteredGUI(playerInputRect, 20, 20), mouseIcon);
-            }
-            else
-            {
-                GUI.DrawTexture(GUIManager.CenteredGUI(playerInputRect, 20, 20), xboxIcon);
-            }
-            
-
             /* Character name */
             float playerNameTopMargin;
             playerNameTopMargin = playerContainerTopMargin + (playerContainerHeight * 0.8f);
-
-            GUI.color = Color.yellow;
-            Rect playerNameRect = new Rect(playerContainerLeftMargin, playerNameTopMargin, playerContainerWidth, playerContainerHeight * 0.1f);
-            GUI.DrawTexture(playerNameRect, whiteBox);
-
-            GUI.color = Color.black;
-            text = gameSettings.GetPlayerSettings(i + 1).GetCharacter().ToString();
-            GUI.Label(GUIManager.CenteredGUI(playerNameRect, fontStyle.CalcSize(new GUIContent(text)).x, fontHeight + 5), text);
-
+ 
             /* Ready */
             float playerReadyTopMargin;
             playerReadyTopMargin = playerContainerTopMargin + (playerContainerHeight * 0.9f);
 
-            GUI.color = Color.magenta;
-            Rect playerReadyRect = new Rect(playerContainerLeftMargin, playerReadyTopMargin, playerContainerWidth, playerContainerHeight * 0.1f);
-            GUI.DrawTexture(playerReadyRect, whiteBox);
-
-            GUI.color = Color.black;
-
-            if (gameSettings.GetPlayerSettings(i + 1).GetReady())
+            if (i == 3 && gameSettings.GetNbPlayerReady() > 1)
             {
-                text = "Ready!";
+                Rect startGameRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width) - 350.0f, playerContainerTopMargin, 256, 128);
+                GUI.DrawTexture(startGameRect, pressLT);
             }
-            else
-            {
-                text = "";
-            }
-
-            GUI.Label(GUIManager.CenteredGUI(playerReadyRect, fontStyle.CalcSize(new GUIContent(text)).x, fontHeight + 5), text);       
+                
         }
     }
 }
