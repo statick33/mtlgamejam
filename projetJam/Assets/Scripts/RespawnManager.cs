@@ -68,7 +68,7 @@ public class RespawnManager : MonoBehaviour
                 if (playerPrefab != null)
                 {
                     Vector3 playerSpawnLocation = listRespawnLocation[currentPlayerRespawning];
-                    playerSpawnLocation.y = 0.5f;
+                    //playerSpawnLocation.y = 0.5f;
 
                     GameObject player = Instantiate(playerPrefab, playerSpawnLocation, new Quaternion()) as GameObject;
 

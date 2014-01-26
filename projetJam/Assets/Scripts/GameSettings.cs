@@ -43,6 +43,20 @@ public class GameSettings : MonoBehaviour
         }
     }
 
+    public void ChangePlayerSettingsByControllerNumber(PlayerSettings pPlayerSettings, int pControllerNumber)
+    {
+        int index = 1;
+        foreach (PlayerSettings settings in listPlayerSettings)
+        {
+            if (settings.GetControllerNumber() == pControllerNumber)
+            {
+                ChangePlayerSettings(pPlayerSettings, index);
+                return;
+            }
+            index++;
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -121,5 +135,17 @@ public class GameSettings : MonoBehaviour
         }
 
         return false;
+    }
+
+    public int ControllerNumberToPlayerNumber(int pControllerNumber)
+    {
+        for (int i = 1; i < listPlayerSettings.Count + 1; i++)
+        {
+            if (GetPlayerSettings(i).GetControllerNumber() == pControllerNumber)
+            {
+                return i;
+            }
+        }
+        return 0;
     }
 }

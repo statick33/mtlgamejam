@@ -23,7 +23,7 @@ public class FullBodyController : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () 
+	void Update () 
     {
         direction = new Vector3(0, 0, 0);
 

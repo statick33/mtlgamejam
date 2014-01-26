@@ -8,7 +8,7 @@ public class Pawn : MonoBehaviour
 
     public enum PlayerAction
     {
-        GrabDrop,Throw
+        LaunchTongue, RetractTongue, RetractTongueFruit
     };
 
     public enum pawnColor
@@ -30,20 +30,54 @@ public class Pawn : MonoBehaviour
 
     List<Vector3> respawnLocation;
 
+    public GameObject headAnimObj;
+    public GameObject bodyAnimObj;
+
+    private Animation headAnim;
+    private Animation bodyAnim;
+
+    private CharacterController controller;
+
+    public FullBodyController bodyController;
+
+    Vector3 lastPawnLocation = new Vector3();
+
     void Awake()
     {
-
+        headAnim = headAnimObj.GetComponent<Animation>();
+        bodyAnim = bodyAnimObj.GetComponent<Animation>();
+        controller = GetComponent<CharacterController>();
     }
 
 	// Use this for initialization
 	void Start () 
     {
         presentColorOfPawn = pawnColor.Bleu;
+        lastPawnLocation = transform.position;
 	}
 
     // Update is called once per frame
     void Update() 
     {
+        if (bodyController.direction != Vector3.zero)
+        {
+            if (bodyAnim.IsPlaying("BodyWalk") == false)
+            {
+                bodyAnim.Play("BodyWalk");
+                headAnim.Play("HeadWalkNoFruit");
+            }
+        }
+        else
+        {
+            if (bodyAnim.IsPlaying("BodyWalk"))
+            {
+                bodyAnim.Stop();
+                headAnim.Stop();
+            }
+        }
+
+        lastPawnLocation = transform.position;
+
 	}
 
     //getter for score
@@ -68,42 +102,54 @@ public class Pawn : MonoBehaviour
     void OnCollisionEnter(Collision pOther)
     {
   
-        /*
-        if (pOther.gameObject.tag == "ThrowableObject" && pOther.rigidbody != null)
-        {
-            pOther.rigidbody.velocity = Vector3.zero;
-
-            if (pOther.gameObject.GetComponent<ThrowableObject>().GetIsDeadly())
-            {
-                Pawn killedBy = pOther.gameObject.GetComponent<ThrowableObject>().GetThrownBy();
-
-                // Making sure to not give urself point for killing urself
-                if (killedBy != this)
-                {
-                    killedBy.YouKilled();
-                }
-
-                Kill();
-            }
-        */
     }
 
     public void Action(PlayerAction pAction)
     {
+        /*
         if (lockAction)
         {
             return;
-        }
+        }*/
 
         switch (pAction)
         {
-            case PlayerAction.GrabDrop:
-                //throwManager.ActionGrabDrop();
+            case PlayerAction.LaunchTongue:
+                LaunchTongue();
                 break;
-            case PlayerAction.Throw:
-                //throwManager.ActionThrow();
+            case PlayerAction.RetractTongue:
+                break;
+            case PlayerAction.RetractTongueFruit:
+                break;
+            default:
                 break;
         }
+    }
+
+    private void LaunchTongue()
+    {
+        //headAnim["HeadTongueOutNotFruit"].speed = 0.10f;
+        //bodyAnim["BodyToungueOutNoFruit"].speed = 0.10f;
+
+        headAnim.Play("HeadTongueOutNotFruit");
+        bodyAnim.Play("BodyToungueOutNoFruit");
+
+        //Invoke("BackToIdle", 0.9f);
+    }
+
+    private void BackToIdle()
+    {
+        headAnim.Play("HeadIdle");
+    }
+
+    private void RetractTongue()
+    {
+ 
+    }
+
+    private void RetractTongueFruit()
+    {
+ 
     }
 
     public void SetLockAction(bool pLock,bool pDropObject)
