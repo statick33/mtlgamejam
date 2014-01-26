@@ -38,6 +38,8 @@ public class Pawn : MonoBehaviour
 
     private CharacterController controller;
 
+    private static int lizardId;
+
     public FullBodyController bodyController;
 
     Vector3 lastPawnLocation = new Vector3();
@@ -56,6 +58,11 @@ public class Pawn : MonoBehaviour
     //Lizard color properties
     public skinProperties colorSkinProperties = new skinProperties();
 
+    public Texture Texture1;
+    public Texture Texture2;
+    public Texture Texture3;
+    public Texture Texture4;
+
     void Awake()
     {
         headAnim = headAnimObj.GetComponent<Animation>();
@@ -66,9 +73,10 @@ public class Pawn : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        presentColorOfPawn = pawnColor.Bleu;
+        SetColor("green");
+        SetTexture();
+        lizardId++;
         lastPawnLocation = transform.position;
-
 	}
 
     // Update is called once per frame
@@ -226,6 +234,28 @@ public class Pawn : MonoBehaviour
 
         transform.GetChild(0).GetChild(0).GetChild(1).renderer.material.color = newColor;
         transform.GetChild(0).GetChild(1).GetChild(0).GetChild(3).renderer.material.color = newColor;
+    }
+
+    //Set the lizard texture
+    public void SetTexture()
+    {
+        
+        Material skinMaterial = transform.GetChild(0).GetChild(0).GetChild(1).renderer.material;
+        switch (lizardId)
+        {
+            case 0:
+                skinMaterial.mainTexture = Texture1;
+            break;
+            case 1:
+                skinMaterial.mainTexture = Texture2;
+            break;
+            case 2:
+                skinMaterial.mainTexture = Texture3;
+            break;
+            case 3:
+                skinMaterial.mainTexture = Texture4;
+            break;
+        }
     }
 
     private void Respawn()
