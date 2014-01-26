@@ -135,7 +135,7 @@ public class CharSelectGUI : GameGUI
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // ADD TO FULL GAME
-            if (gameSettings.GetNbPlayerReady() < 1)
+            if (gameSettings.GetNbPlayerReady() < 2)
             {
                 return;
             }
@@ -179,64 +179,72 @@ public class CharSelectGUI : GameGUI
         // Controller detection
         for (int i = 1; i <= 11; i++)
         {
-            float axisValue = Input.GetAxis("Controller"+i+"_GrabRelease2");
-
             float grabAxisValue = 0;
             float throwAxisValue = 0;
 
-            if (axisValue > 0)
+            if (Input.GetButtonDown("Controller" + i + "_Detect"))
             {
-                grabAxisValue = axisValue;
-                throwAxisValue = 0;
-            }
-            else
-            {
-                grabAxisValue = 0;
-                throwAxisValue = Mathf.Abs(axisValue);
-            }
-
-            if (grabAxisValue >= 0.1 && listLastGrabAxisValue[i - 1] < 0.1)
-            {
-                // ADD TO FULL GAME
-                if (gameSettings.GetNbPlayerReady() < 1)
+                if (gameSettings.GetIsControllerActive(i) == false)
                 {
+                    int playerSlot = gameSettings.GetNextAvailableSlot();
+
+                    if (playerSlot == -1)
+                    {
+                        return;
+                    }
+
+                    if (gameSettings.GetPlayerSettings(i).GetControllerNumber() == 0)
+                    {
+                        PlayerSettings playerSettings = new PlayerSettings();
+                        playerSettings.SetCharacter(PlayerSettings.Character.Louis);
+                        playerSettings.SetInput(PlayerInput.Controller.Xbox);
+                        playerSettings.SetControllerNumber(i);
+
+                        gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+                    }
+                }
+                
+            }
+            else 
+            {
+                float axisValue = Input.GetAxis("Controller" + i + "_GrabRelease2");
+
+                if (axisValue > 0)
+                {
+                    grabAxisValue = axisValue;
+                    throwAxisValue = 0;
+                }
+                else
+                {
+                    grabAxisValue = 0;
+                    throwAxisValue = Mathf.Abs(axisValue);
+                }
+
+                if (grabAxisValue >= 0.1 && listLastGrabAxisValue[i - 1] < 0.1)
+                {
+                    // ADD TO FULL GAME
+                    if (gameSettings.GetNbPlayerReady() < 2)
+                    {
+                        return;
+                    }
+
+                    SwapGUI(GUIManager.GUICommand.Empty);
+                    Application.LoadLevel("level_01");
                     return;
                 }
 
-                SwapGUI(GUIManager.GUICommand.Empty);
-                Application.LoadLevel("level_01");
-                return;
-            }
-            
-            if (throwAxisValue >= 0.1 && listLastThrowAxisValue[i - 1] < 0.1)
-            {
-                // There is already a player
-                if (gameSettings.GetIsControllerActive(i) == true)
+                if (throwAxisValue >= 0.1 && listLastThrowAxisValue[i - 1] < 0.1)
                 {
-                    PlayerSettings playerSet = gameSettings.GetPlayerSettings(gameSettings.ControllerNumberToPlayerNumber(i));
-                    playerSet.SetReady(true);
-                    gameSettings.ChangePlayerSettingsByControllerNumber(playerSet, i);
-                    return;
-                }
+                    // There is already a player
+                    if (gameSettings.GetIsControllerActive(i) == true)
+                    {
+                        PlayerSettings playerSet = gameSettings.GetPlayerSettings(gameSettings.ControllerNumberToPlayerNumber(i));
+                        playerSet.SetReady(true);
+                        gameSettings.ChangePlayerSettingsByControllerNumber(playerSet, i);
+                        return;
+                    }
 
-                Debug.Log("Controller " + i + " activated");
-
-                int playerSlot = gameSettings.GetNextAvailableSlot();
-
-
-                if (playerSlot == -1)
-                {
-                    return;
-                }
-
-                if (gameSettings.GetPlayerSettings(i).GetControllerNumber() == 0)
-                {
-                    PlayerSettings playerSettings = new PlayerSettings();
-                    playerSettings.SetCharacter(PlayerSettings.Character.Louis);
-                    playerSettings.SetInput(PlayerInput.Controller.Xbox);
-                    playerSettings.SetControllerNumber(i);
-
-                    gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+                    Debug.Log("Controller " + i + " activated");
                 }
             }
 
@@ -282,7 +290,7 @@ public class CharSelectGUI : GameGUI
             }  
 
             //GUI.color = Color.red;
-            Rect playerContainerRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width), playerContainerTopMargin, 256, 128);
+            Rect playerContainerRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width), (GUIManager.ResizeGUI(0.21f, GUIManager.DistanceType.Height)) * i, (GUIManager.ResizeGUI(0.33f, GUIManager.DistanceType.Width)), (GUIManager.ResizeGUI(0.20f, GUIManager.DistanceType.Height)));
             GUI.DrawTexture(playerContainerRect, readyTextutre);
 
             /* Player number */

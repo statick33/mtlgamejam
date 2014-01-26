@@ -134,7 +134,7 @@ public class Pawn : MonoBehaviour
         headAnim.Play("HeadTongueOutNotFruit");
         bodyAnim.Play("BodyToungueOutNoFruit");
 
-        //Invoke("BackToIdle", 0.9f);
+        Invoke("BackToIdle", 0.9f);
     }
 
     private void BackToIdle()
