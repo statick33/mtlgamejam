@@ -7,7 +7,7 @@ public class TongueController : MonoBehaviour
     private bool isColliding = false;
     private bool isRetracting = false;
     private float tongueElapsedTime = 0;
- 
+
     public float maxTongueDistance;
     public float tongueSpeed;
     public float tongueSmooth;
@@ -16,6 +16,7 @@ public class TongueController : MonoBehaviour
 
     public Pawn pawn;
     public PlayerInput input;
+    public GameObject tongueExtensible;
 
     //Input
     float lastGrabAxisValue = 0;
@@ -27,7 +28,7 @@ public class TongueController : MonoBehaviour
 
     void Update()
     {
-        if(isCurrentlyShooting == false)
+        if (isCurrentlyShooting == false)
         {
             float grabAxisValue = 0;
             float throwAxisValue = 0;
@@ -56,7 +57,7 @@ public class TongueController : MonoBehaviour
                     throwAxisValue = Mathf.Abs(axisValue);
                 }
 
-                if(throwAxisValue >= 0.1 && lastThrowAxisValue < 0.1)
+                if (throwAxisValue >= 0.1 && lastThrowAxisValue < 0.1)
                 {
                     StartShootTongue();
                 }
@@ -87,6 +88,12 @@ public class TongueController : MonoBehaviour
 
         transform.position = transform.position + movement;
 
+        /*movement = Vector3.Scale(movement, transform.forward);
+        movement.x = 0;
+        movement.z = 0;
+        print(movement.y);
+        //tongueExtensible.transform.localScale = movement;*/
+        print(tongueExtensible.transform.localScale);
         //Max distance 
         if ((transform.position - pawn.TongueSocket.gameObject.transform.position).magnitude > maxTongueDistance || Time.time - tongueElapsedTime > tongueTimeOut)
         {
@@ -103,11 +110,31 @@ public class TongueController : MonoBehaviour
 
     void RetractTongue()
     {
-        Vector3 movement = new Vector3(tongueSpeed, 0, tongueSpeed);
+        if (Time.time - tongueElapsedTime < tongueTimeOut)
+        {
+            Vector3 movement = new Vector3(tongueSpeed, 0, tongueSpeed);
 
-        movement = Vector3.Scale(Vector3.Scale(movement, transform.forward),new Vector3(-1, 0, -1));
+            movement = Vector3.Scale(Vector3.Scale(movement, transform.forward), new Vector3(-1, 0, -1));
 
-        transform.position = transform.position + movement;
+            transform.position = transform.position + movement;
+        }
+        else
+        {
+            stopRetractTongue();
+        }
+    }
+
+    void stopRetractTongue()
+    {
+        Vector3 vect = new Vector3(0, 0, 0);
+        transform.position = pawn.TongueSocket.transform.position;
+        CancelInvoke("RetractTongue");
+        CancelInvoke("ShootTongue");
+        rigidbody.velocity = vect;
+
+        isRetracting = false;
+        isCurrentlyShooting = false;
+        pawn.SetLockAction(false, false);
     }
 
     void OnCollisionEnter(Collision target)
@@ -122,7 +149,7 @@ public class TongueController : MonoBehaviour
             isColliding = true;
         }
         //If the tongue hits a fruit
-        else if ((target.gameObject.tag == "Strawberry" || target.gameObject.tag == "Grape" || target.gameObject.tag == "Orange" || target.gameObject.tag == "Kiwi") && isCurrentlyShooting == true )
+        else if ((target.gameObject.tag == "Strawberry" || target.gameObject.tag == "Grape" || target.gameObject.tag == "Orange" || target.gameObject.tag == "Kiwi") && isCurrentlyShooting == true)
         {
             if (fruitSocket.transform.childCount == 0)
             {
@@ -145,7 +172,7 @@ public class TongueController : MonoBehaviour
         {
             RetractTongue();
         }
-        
+
         print(target.gameObject.tag);
 
     }
@@ -160,7 +187,7 @@ public class TongueController : MonoBehaviour
             Vector3 vect = new Vector3(0, 0, 0);
             CancelInvoke("RetractTongue");
             rigidbody.velocity = vect;
-            
+
             isCurrentlyShooting = false;
             isRetracting = false;
             pawn.SetLockAction(false, false);
@@ -173,15 +200,7 @@ public class TongueController : MonoBehaviour
         //Fix a bug whne the tongue is really close
         if (target.gameObject.tag == "TongueSocket" && isCurrentlyShooting == true && isRetracting == true)
         {
-            Vector3 vect = new Vector3(0, 0, 0);
-            transform.position = pawn.TongueSocket.transform.position;
-            CancelInvoke("RetractTongue");
-            CancelInvoke("ShootTongue");
-            rigidbody.velocity = vect;
-
-            isRetracting = false;
-            isCurrentlyShooting = false;
-            pawn.SetLockAction(false, false);
+            stopRetractTongue();
         }
     }
 
