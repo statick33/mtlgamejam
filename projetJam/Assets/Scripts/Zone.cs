@@ -35,6 +35,24 @@ public class Zone : MonoBehaviour
     //Present zone color
     public zoneColor presentZoneColor;
 
+    //colors of the zone
+    
+    [System.Serializable]
+    public class lightProperties
+    {
+       
+        public Color lightColor = Color.white;
+        public int lightIntensity = 10;   
+    }
+
+    //light color properties
+    public lightProperties greenLightProperties = new lightProperties(); 
+    public lightProperties blueLightProperties = new lightProperties();
+    public lightProperties redLightProperties = new lightProperties();
+    public lightProperties orangeLightProperties = new lightProperties();
+
+   
+
     //The number of scoring player in the zone
     private int nbScoringPlayers;
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,22 +122,26 @@ public class Zone : MonoBehaviour
         //set the color & applly it to the light
        switch(newColor)
        {
+               
            case 0:
                presentZoneColor = zoneColor.Bleu;
-               lightOfZone.color = Color.blue;
+               lightOfZone.intensity = blueLightProperties.lightIntensity;
+               lightOfZone.color = blueLightProperties.lightColor;
                break;
            case 1:
                presentZoneColor = zoneColor.Rouge;
-               lightOfZone.color = Color.red;
+               lightOfZone.intensity = redLightProperties.lightIntensity;
+               lightOfZone.color = redLightProperties.lightColor;
                break;
            case 2:
-               presentZoneColor = zoneColor.Vert;              
-               lightOfZone.color = Color.green;
+               presentZoneColor = zoneColor.Vert;
+               lightOfZone.intensity = greenLightProperties.lightIntensity;
+               lightOfZone.color = greenLightProperties.lightColor;
                break;
            case 3:
                presentZoneColor = zoneColor.Orange;
-               Color colorOrange = new Color(229, 147, 2, 255);
-               lightOfZone.color = colorOrange;
+               lightOfZone.intensity = orangeLightProperties.lightIntensity;
+               lightOfZone.color = orangeLightProperties.lightColor;
                break;           
        }
 
