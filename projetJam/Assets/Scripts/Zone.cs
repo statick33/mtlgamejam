@@ -19,6 +19,11 @@ public class Zone : MonoBehaviour
     //In randommize sequence
     private bool bIsSelectedInRandom = false;
 
+    //sound of zone start
+    public AudioSource soundOfTheZoneStart;
+    //sound of zone end
+    public AudioSource soundOfTheZoneEnd;
+    
     
     //List of zones in the level
     public List<Zone> listOfZones = new List<Zone>();  
@@ -88,6 +93,7 @@ public class Zone : MonoBehaviour
         {
             timeOfRandomizedLoop = 120;
             bIsSelectedInRandom = false;
+            soundOfTheZoneEnd.Play();
             activateNewZone(false);
         }
 
@@ -133,6 +139,8 @@ public class Zone : MonoBehaviour
             bZoneActivated = true;
             //set the remaining time
             timeRemaing = zoneActiveTime * 60;
+            // Play sound start
+            soundOfTheZoneStart.Play();
         }
         else
         {
