@@ -1,0 +1,164 @@
+fileFormatVersion: 2
+guid: d7ff5f3dd78ec2e49bbad735dbd6e9b9
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Lizard_eyeL
+    100004: lizard_eyeR
+    100006: lizard_head
+    100008: LizardEyeLeft
+    100010: LizardEyeRight
+    100012: LizardHead
+    100014: LizardJaw
+    100016: LizardPelvis
+    100018: LizardRibcage
+    100020: LizardRibcageBone001Bone003Gizmo
+    100022: LizardRibcageBone001Bone004Gizmo
+    100024: LizardSpine1
+    100026: LizardSpine2
+    100028: LizardSpine3
+    100030: LizardSpine4
+    100032: LizardSpine5
+    100034: LizardSpine6
+    400000: //RootNode
+    400002: Lizard_eyeL
+    400004: lizard_eyeR
+    400006: lizard_head
+    400008: LizardEyeLeft
+    400010: LizardEyeRight
+    400012: LizardHead
+    400014: LizardJaw
+    400016: LizardPelvis
+    400018: LizardRibcage
+    400020: LizardRibcageBone001Bone003Gizmo
+    400022: LizardRibcageBone001Bone004Gizmo
+    400024: LizardSpine1
+    400026: LizardSpine2
+    400028: LizardSpine3
+    400030: LizardSpine4
+    400032: LizardSpine5
+    400034: LizardSpine6
+    4300000: Lizard_eyeL
+    4300002: lizard_eyeR
+    4300004: lizard_head
+    7400000: HeadWalkFruit
+    9500000: //RootNode
+    13700000: Lizard_eyeL
+    13700002: lizard_eyeR
+    13700004: lizard_head
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: HeadWalkFruit
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 41
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Lizard_eyeL
+        weight: 1
+      - path: lizard_eyeR
+        weight: 1
+      - path: lizard_head
+        weight: 1
+      - path: LizardPelvis
+        weight: 1
+      - path: LizardPelvis/LizardSpine1
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardHead
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardHead/LizardEyeLeft
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardHead/LizardEyeRight
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardHead/LizardJaw
+        weight: 1
+      - path: LizardRibcageBone001Bone003Gizmo
+        weight: 1
+      - path: LizardRibcageBone001Bone004Gizmo
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

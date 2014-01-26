@@ -1,0 +1,104 @@
+fileFormatVersion: 2
+guid: 734e49a5bbae1cd478bb6ba83c4a6ce5
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Lizard
+    100004: Lizard_eyeL
+    100006: lizard_eyeR
+    100008: lizard_head
+    100010: LizardEyeLeft
+    100012: LizardEyeRight
+    100014: LizardHead
+    100016: LizardJaw
+    100018: LizardPelvis
+    100020: LizardRibcage
+    100022: LizardRibcageBone001Bone003Gizmo
+    100024: LizardRibcageBone001Bone004Gizmo
+    100026: LizardSpine1
+    100028: LizardSpine2
+    100030: LizardSpine3
+    100032: LizardSpine4
+    100034: LizardSpine5
+    100036: LizardSpine6
+    400000: //RootNode
+    400002: Lizard
+    400004: Lizard_eyeL
+    400006: lizard_eyeR
+    400008: lizard_head
+    400010: LizardEyeLeft
+    400012: LizardEyeRight
+    400014: LizardHead
+    400016: LizardJaw
+    400018: LizardPelvis
+    400020: LizardRibcage
+    400022: LizardRibcageBone001Bone003Gizmo
+    400024: LizardRibcageBone001Bone004Gizmo
+    400026: LizardSpine1
+    400028: LizardSpine2
+    400030: LizardSpine3
+    400032: LizardSpine4
+    400034: LizardSpine5
+    400036: LizardSpine6
+    4300000: Lizard_eyeL
+    4300002: lizard_eyeR
+    4300004: lizard_head
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Lizard_eyeL
+    13700002: lizard_eyeR
+    13700004: lizard_head
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

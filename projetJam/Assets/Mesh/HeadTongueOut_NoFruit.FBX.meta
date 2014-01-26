@@ -1,0 +1,146 @@
+fileFormatVersion: 2
+guid: 10f19528bedff9f4d9d97d9de17c1fd0
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: LizardPelvis
+    100004: LizardRibcage
+    100006: LizardRibcageBone001
+    100008: LizardRibcageBone001Bone002
+    100010: LizardRibcageBone001Bone003
+    100012: LizardRibcageBone001Bone003Gizmo
+    100014: LizardRibcageBone001Bone004
+    100016: LizardRibcageBone001Bone004Gizmo
+    100018: LizardSpine1
+    100020: LizardSpine2
+    100022: LizardSpine3
+    100024: LizardSpine4
+    100026: LizardSpine5
+    100028: LizardSpine6
+    400000: //RootNode
+    400002: LizardPelvis
+    400004: LizardRibcage
+    400006: LizardRibcageBone001
+    400008: LizardRibcageBone001Bone002
+    400010: LizardRibcageBone001Bone003
+    400012: LizardRibcageBone001Bone003Gizmo
+    400014: LizardRibcageBone001Bone004
+    400016: LizardRibcageBone001Bone004Gizmo
+    400018: LizardSpine1
+    400020: LizardSpine2
+    400022: LizardSpine3
+    400024: LizardSpine4
+    400026: LizardSpine5
+    400028: LizardSpine6
+    7400000: HeadTongueOutNoFruid
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: HeadTongueOutNoFruid
+      takeName: Take 001
+      firstFrame: -1
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: LizardPelvis
+        weight: 1
+      - path: LizardPelvis/LizardSpine1
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardRibcageBone001
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardRibcageBone001/LizardRibcageBone001Bone002
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardRibcageBone001/LizardRibcageBone001Bone003
+        weight: 1
+      - path: LizardPelvis/LizardSpine1/LizardSpine2/LizardSpine3/LizardSpine4/LizardSpine5/LizardSpine6/LizardRibcage/LizardRibcageBone001/LizardRibcageBone001Bone004
+        weight: 1
+      - path: LizardRibcageBone001Bone003Gizmo
+        weight: 1
+      - path: LizardRibcageBone001Bone004Gizmo
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
