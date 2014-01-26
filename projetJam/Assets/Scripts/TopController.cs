@@ -85,7 +85,5 @@ public class TopController : MonoBehaviour
         rotation.z = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
 
-        Debug.Log("BBB");
-
 	}
 }
