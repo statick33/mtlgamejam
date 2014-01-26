@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Zone : MonoBehaviour
 {
-
+    public static float timeOfRandomizedLoop = 120;
     //Different color a zone can have
     public enum zoneColor
     {
@@ -14,9 +14,14 @@ public class Zone : MonoBehaviour
         Vert,
         Orange,
     };
+    //between sequences active time
+    private  float randomizedActivetimeEffect = 10;
+    //In randommize sequence
+    private bool bIsSelectedInRandom = false;
+
     
     //List of zones in the level
-    public List<Zone> listOfZones = new List<Zone>();
+    public List<Zone> listOfZones = new List<Zone>();  
     //Time the zone will be active
     public float zoneActiveTime = 15;
     //Time remaining 
@@ -75,8 +80,15 @@ public class Zone : MonoBehaviour
 
         if (bFirstZone)
         {
-            bFirstZone = false;
-            zoneActivated(0);
+            bFirstZone = false;           
+            zoneActivated(0, true);            
+        }
+
+        if (timeOfRandomizedLoop <= 0 && bIsSelectedInRandom)
+        {
+            timeOfRandomizedLoop = 120;
+            bIsSelectedInRandom = false;
+            activateNewZone(false);
         }
 
         if (bZoneActivated )
@@ -87,25 +99,52 @@ public class Zone : MonoBehaviour
 
             //Decrease time remaining
             timeRemaing -= 1;
-            //Display the remainning time
+            // No time remainning 
+            if (timeRemaing == 0)
+            {
+                activateNewZone(true);
+            }
+        }
+
+        if (bIsSelectedInRandom)
+        {
+            //reduce time of random loop
+            timeOfRandomizedLoop--;
+            //Decrease time remaining
+            timeRemaing -= 1;            
 
             // No time remainning 
             if (timeRemaing == 0)
             {
-                activateNewZone();
+                activateNewZone(true);
             }
         }
     }
 ///////////////////////////////////////////////////////////////////////////////
     // Activate the zone 
-    public void zoneActivated(int previousZoneColor)
+    public void zoneActivated(int previousZoneColor, bool pRandom)
     {
-        //set the remaining time
-        timeRemaing = zoneActiveTime;
+
+
+
+        if (!pRandom)
+        {
+            //activate the zone
+            bZoneActivated = true;
+            //set the remaining time
+            timeRemaing = zoneActiveTime * 60;
+        }
+        else
+        {
+            //Is random owner
+            bIsSelectedInRandom = true;
+            //remainning time for random
+            timeRemaing = randomizedActivetimeEffect;
+        }
+
         //set the color of the light
-        selectColor(previousZoneColor);    
-        //activate the zone
-        bZoneActivated = true;
+        selectColor(previousZoneColor);
+      
     }
 ///////////////////////////////////////////////////////////////////////////////
     // Random Selection of the color of the zone
@@ -152,21 +191,25 @@ public class Zone : MonoBehaviour
     // Set the pts that the player will make this frame
     void setPtsForThisFrame()
     {
-        if (nbScoringPlayers != 0)
+        if (nbScoringPlayers != 0 && nbScoringPlayers > 1)
         {
             ptsForScoringPlayer = vitesseGainPtsSolo / nbScoringPlayers;
         }
+       
     }
 ///////////////////////////////////////////////////////////////////////////////
     // Choose randomly the new zone to be activatec
-    void activateNewZone()
+    void activateNewZone(bool pRandom)
     {
+        bIsSelectedInRandom = false;
         //number of zone in the level
         int nbOfZone = listOfZones.Count;
         //select the the zone to activate randomly
-        listOfZones[Random.Range(0, nbOfZone)].zoneActivated((int)presentZoneColor);
+        listOfZones[Random.Range(0, nbOfZone)].zoneActivated((int)presentZoneColor, pRandom);
+     
         //deactivate this zone
         bZoneActivated = false;
+        
         //player feed back zone deactivated
         lightOfZone.enabled = false;
     }
