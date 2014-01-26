@@ -248,7 +248,7 @@ public class Zone : MonoBehaviour
     void OnTriggerStay(Collider playerColl)
     {
         //if its a player
-        if (playerColl.gameObject.tag == "Player")
+        if (playerColl.gameObject.tag == "Player" && bZoneActivated)
         {
             Pawn pawnInZone = playerColl.gameObject.GetComponent<Pawn>();
 
