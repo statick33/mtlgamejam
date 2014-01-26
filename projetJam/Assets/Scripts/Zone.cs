@@ -92,8 +92,7 @@ public class Zone : MonoBehaviour
         if (timeOfRandomizedLoop <= 0 && bIsSelectedInRandom)
         {
             timeOfRandomizedLoop = 120;
-            bIsSelectedInRandom = false;
-            soundOfTheZoneEnd.Play();
+            bIsSelectedInRandom = false;           
             activateNewZone(false);
         }
 
@@ -108,6 +107,7 @@ public class Zone : MonoBehaviour
             // No time remainning 
             if (timeRemaing == 0)
             {
+                soundOfTheZoneEnd.Play();
                 activateNewZone(true);
             }
         }
@@ -199,7 +199,7 @@ public class Zone : MonoBehaviour
     // Set the pts that the player will make this frame
     void setPtsForThisFrame()
     {
-        if (nbScoringPlayers != 0 && nbScoringPlayers > 1)
+        if (nbScoringPlayers != 0)
         {
             ptsForScoringPlayer = vitesseGainPtsSolo / nbScoringPlayers;
         }
@@ -226,7 +226,7 @@ public class Zone : MonoBehaviour
     void OnTriggerEnter(Collider playerColl)
     {
         //if its a player
-        if (playerColl.gameObject.tag == "Player" /*&& bZoneActivated*/)
+        if (playerColl.gameObject.tag == "Player" && bZoneActivated)
         {
             Pawn pawnInZone =  playerColl.gameObject.GetComponent<Pawn>();
            
