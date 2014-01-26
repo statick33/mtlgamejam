@@ -94,8 +94,8 @@ public class CharSelectGUI : GameGUI
         /* Main container */
         mainContainerLeftMargin = 0;
         mainContainerTopMargin = 0;
-        mainContainerWidht = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Width);
-        mainContainerHeight = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Height);
+        mainContainerWidht = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Width) +1;
+        mainContainerHeight = GUIManager.ResizeGUI(1.0f, GUIManager.DistanceType.Height) +1;
 
         mainContrainerHeightBuffer = 0.0f;
         mainContainerHeightBuffer = GUIManager.ResizeGUI(0.01f, GUIManager.DistanceType.Height);
@@ -188,6 +188,8 @@ public class CharSelectGUI : GameGUI
 
             if (Input.GetButtonDown("Controller" + i + "_Detect"))
             {
+                Debug.Log("Controller" + i + "_Detect");
+
                 if (gameSettings.GetIsControllerActive(i) == false)
                 {
                     int playerSlot = gameSettings.GetNextAvailableSlot();
@@ -197,15 +199,14 @@ public class CharSelectGUI : GameGUI
                         return;
                     }
 
-                    if (gameSettings.GetPlayerSettings(i).GetControllerNumber() == 0)
-                    {
-                        PlayerSettings playerSettings = new PlayerSettings();
-                        playerSettings.SetCharacter(PlayerSettings.Character.Louis);
-                        playerSettings.SetInput(PlayerInput.Controller.Xbox);
-                        playerSettings.SetControllerNumber(i);
 
-                        gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
-                    }
+                    PlayerSettings playerSettings = new PlayerSettings();
+                    playerSettings.SetCharacter(PlayerSettings.Character.Louis);
+                    playerSettings.SetInput(PlayerInput.Controller.Xbox);
+                    playerSettings.SetControllerNumber(i);
+
+                    gameSettings.ChangePlayerSettings(playerSettings, playerSlot);
+                    
                 }
                 
             }
@@ -293,7 +294,7 @@ public class CharSelectGUI : GameGUI
             }  
 
             //GUI.color = Color.red;
-            Rect playerContainerRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width), (GUIManager.ResizeGUI(0.21f, GUIManager.DistanceType.Height)) * i, (GUIManager.ResizeGUI(0.33f, GUIManager.DistanceType.Width)), (GUIManager.ResizeGUI(0.20f, GUIManager.DistanceType.Height)));
+            Rect playerContainerRect = new Rect(GUIManager.ResizeGUI(0.55f, GUIManager.DistanceType.Width),80 + (GUIManager.ResizeGUI(0.21f, GUIManager.DistanceType.Height)) * i, (GUIManager.ResizeGUI(0.33f, GUIManager.DistanceType.Width)), (GUIManager.ResizeGUI(0.20f, GUIManager.DistanceType.Height)));
             GUI.DrawTexture(playerContainerRect, readyTextutre);
 
             /* Player number */
@@ -314,7 +315,7 @@ public class CharSelectGUI : GameGUI
 
             if (i == 3 && gameSettings.GetNbPlayerReady() > 1)
             {
-                Rect startGameRect = new Rect(GUIManager.ResizeGUI(0.45f, GUIManager.DistanceType.Width) - 350.0f, playerContainerTopMargin, 256, 128);
+                Rect startGameRect = new Rect(GUIManager.ResizeGUI(0.15f, GUIManager.DistanceType.Width), (GUIManager.ResizeGUI(0.80f, GUIManager.DistanceType.Height)), (GUIManager.ResizeGUI(0.20f, GUIManager.DistanceType.Width)), (GUIManager.ResizeGUI(0.15f, GUIManager.DistanceType.Height)));
                 GUI.DrawTexture(startGameRect, pressLT);
             }
                 
