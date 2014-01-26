@@ -73,6 +73,7 @@ ModelImporter:
     100134: LizardTail6
     100136: LizardTail7
     100138: LizardTail8
+    100140: Dummy002
     400000: //RootNode
     400002: Lizard
     400004: lizard_body
@@ -143,6 +144,7 @@ ModelImporter:
     400134: LizardTail6
     400136: LizardTail7
     400138: LizardTail8
+    400140: Dummy002
     4300000: lizard_body
     7400000: BodyIdle
     9500000: //RootNode

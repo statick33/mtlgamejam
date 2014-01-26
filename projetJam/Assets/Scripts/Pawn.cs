@@ -134,12 +134,13 @@ public class Pawn : MonoBehaviour
         headAnim.Play("HeadTongueOutNotFruit");
         bodyAnim.Play("BodyToungueOutNoFruit");
 
-        //Invoke("BackToIdle", 0.9f);
+        Invoke("BackToIdle", 0.9f);
     }
 
     private void BackToIdle()
     {
         headAnim.Play("HeadIdle");
+        bodyAnim.Play("BodyIdle");
     }
 
     private void RetractTongue()
