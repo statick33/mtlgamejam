@@ -77,16 +77,23 @@ public class TongueController : MonoBehaviour
         else if (target.gameObject.tag == "Strawberry" && isCurrentlyShooting == true)
         {
             target.transform.parent = fruitSocket.transform;
-            print("TEST");
+            //print("TEST");
             CancelInvoke("ShootTongue");
             InvokeRepeating("RetractTongue", 0, tongueSmooth);
             isRetracting = true;
 
         }
-        else if (target.gameObject.tag == "LizardHead" && isCurrentlyShooting == true)
+        else if (target.gameObject.tag == "LizardHead" && isCurrentlyShooting == true && fruitSocket.transform.childCount > 0)
         {
-            print("AVALE ");
-            fruitSocket.transform.DetachChildren();
+            //print("AVALE ");
+            Destroy(fruitSocket.transform.GetChild(0).gameObject);
+        }
+        else if (target.gameObject.tag == "LizardBody" && isCurrentlyShooting == true && fruitSocket.transform.childCount > 0)
+        {
+            print("TEST");
+            CancelInvoke("ShootTongue");
+            InvokeRepeating("RetractTongue", 0, tongueSmooth);
+            isRetracting = true;
         }
         
         print(target.gameObject.tag);
