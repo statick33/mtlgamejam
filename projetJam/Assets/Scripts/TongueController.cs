@@ -12,11 +12,10 @@ public class TongueController : MonoBehaviour
     public float tongueSmooth;
     public GameObject fruitSocket;
 
-    Pawn pawn;
+    public Pawn pawn;
 
     void Start()
     {
-        pawn = transform.parent.parent.GetComponent<Pawn>();
     }
 
     void Update()

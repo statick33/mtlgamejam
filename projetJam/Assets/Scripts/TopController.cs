@@ -6,7 +6,7 @@ public class TopController : MonoBehaviour
 
     public float rotationSpeed = 7;
 
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
 
     // Previous direction player was facing
     float lastLookAtX, lastLookAtY = 1;
@@ -14,16 +14,12 @@ public class TopController : MonoBehaviour
     // PC mouse position or controller joystick direction
     Vector3 lookAtPosition = Vector3.zero;
 
-    Pawn pawn;
+    public Pawn pawn;
 
 	// Use this for initialization
 	void Start () 
     {
-        playerInput = transform.parent.GetComponent<PlayerInput>();
 
-        //Debug.Log(" 0 :"+Input.GetJoystickNames()[0] + " 1 :"+ Input.GetJoystickNames()[1]);
-
-        pawn = transform.parent.GetComponent<Pawn>();
 	}
 	
 	// Update is called once per frame
@@ -85,7 +81,11 @@ public class TopController : MonoBehaviour
         // Rotation calculation
 
         Quaternion rotation = Quaternion.LookRotation(lookAtPosition - transform.position);
+        rotation.x = 0;
+        rotation.z = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+
+        Debug.Log("BBB");
 
 	}
 }

@@ -4,6 +4,7 @@ using System.Collections;
 public class BodyController : MonoBehaviour 
 {
     public FullBodyController fullBodyController;
+    public float rotationSpeed = 4.5f;
 
 	// Use this for initialization
 	void Start () 
@@ -15,12 +16,15 @@ public class BodyController : MonoBehaviour
 	void Update () 
     {
         Vector3 direction = fullBodyController.direction;
+
         if (direction != Vector3.zero)
         {
-            direction.y = transform.position.y;
-
-            Quaternion rotation = Quaternion.LookRotation(transform.position + direction - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3);
+            Quaternion rotation = Quaternion.LookRotation(direction - transform.position);
+            rotation.z = 0;
+            rotation.x = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
         }
-	}
+
+        Debug.Log(direction);
+    }
 }
