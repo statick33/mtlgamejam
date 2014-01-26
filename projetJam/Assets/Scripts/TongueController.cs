@@ -6,10 +6,12 @@ public class TongueController : MonoBehaviour
     private bool isCurrentlyShooting;
     private bool isColliding = false;
     private bool isRetracting = false;
-
+    private float tongueElapsedTime = 0;
+ 
     public float maxTongueDistance;
     public float tongueSpeed;
     public float tongueSmooth;
+    public float tongueTimeOut;
     public GameObject fruitSocket;
 
     public Pawn pawn;
@@ -36,11 +38,7 @@ public class TongueController : MonoBehaviour
             {
                 if (Input.GetKeyDown("space") && isColliding == false)
                 {
-                    isCurrentlyShooting = true;
-                    pawn.SetLockAction(true, false);
-                    rigidbody.drag = 0;
-                    InvokeRepeating("ShootTongue", 0, tongueSmooth);
-                    pawn.Action(Pawn.PlayerAction.LaunchTongue);
+                    StartShootTongue();
                 }
             }
             else if (input.controller == PlayerInput.Controller.Xbox)
@@ -60,11 +58,7 @@ public class TongueController : MonoBehaviour
 
                 if(throwAxisValue >= 0.1 && lastThrowAxisValue < 0.1)
                 {
-                    isCurrentlyShooting = true;
-                    pawn.SetLockAction(true, false);
-                    rigidbody.drag = 0;
-                    InvokeRepeating("ShootTongue", 0, tongueSmooth);
-                    pawn.Action(Pawn.PlayerAction.LaunchTongue);
+                    StartShootTongue();
                 }
 
                 lastThrowAxisValue = throwAxisValue;
@@ -74,6 +68,17 @@ public class TongueController : MonoBehaviour
         transform.rotation = transform.parent.rotation;
         rigidbody.velocity = Vector3.zero;
     }
+
+    void StartShootTongue()
+    {
+        isCurrentlyShooting = true;
+        pawn.SetLockAction(true, false);
+        rigidbody.drag = 0;
+        InvokeRepeating("ShootTongue", 0, tongueSmooth);
+        pawn.Action(Pawn.PlayerAction.LaunchTongue);
+        tongueElapsedTime = Time.time;
+    }
+
     void ShootTongue()
     {
         Vector3 movement = new Vector3(tongueSpeed, 0, tongueSpeed);
@@ -83,12 +88,17 @@ public class TongueController : MonoBehaviour
         transform.position = transform.position + movement;
 
         //Max distance 
-        if ((transform.position - pawn.TongueSocket.gameObject.transform.position).magnitude > maxTongueDistance)
+        if ((transform.position - pawn.TongueSocket.gameObject.transform.position).magnitude > maxTongueDistance || Time.time - tongueElapsedTime > tongueTimeOut)
         {
-            CancelInvoke("ShootTongue");
-            InvokeRepeating("RetractTongue", 0, tongueSmooth);
-            isRetracting = true;
+            StartRetractTongue();
         }
+    }
+
+    void StartRetractTongue()
+    {
+        CancelInvoke("ShootTongue");
+        InvokeRepeating("RetractTongue", 0, tongueSmooth);
+        isRetracting = true;
     }
 
     void RetractTongue()
@@ -102,43 +112,49 @@ public class TongueController : MonoBehaviour
 
     void OnCollisionEnter(Collision target)
     {
+        //If the tongue is hiting a wall type
         if (target.gameObject.tag == "Bounce")
         {
             if (isCurrentlyShooting)
             {
-                CancelInvoke("ShootTongue");
-                InvokeRepeating("RetractTongue", 0, tongueSmooth);
-                isRetracting = true;
+                StartRetractTongue();
             }
             isColliding = true;
         }
-        else if ((target.gameObject.tag == "Strawberry" || target.gameObject.tag == "Grape" || target.gameObject.tag == "Orange" || target.gameObject.tag == "Kiwi") && isCurrentlyShooting == true)
+        //If the tongue hits a fruit
+        else if ((target.gameObject.tag == "Strawberry" || target.gameObject.tag == "Grape" || target.gameObject.tag == "Orange" || target.gameObject.tag == "Kiwi") && isCurrentlyShooting == true )
         {
-            target.transform.position = fruitSocket.transform.position;
-            target.transform.parent = fruitSocket.transform;
-            CancelInvoke("ShootTongue");
-            InvokeRepeating("RetractTongue", 0, tongueSmooth);
-            isRetracting = true;
+            if (fruitSocket.transform.childCount == 0)
+            {
+                target.transform.position = fruitSocket.transform.position;
+                target.transform.parent = fruitSocket.transform;
+                StartRetractTongue();
+            }
+            else
+            {
+                StartRetractTongue();
+            }
         }
+        //If the tongue hits another lizard head
         else if (target.gameObject.tag == "LizardHead" && isCurrentlyShooting == true && fruitSocket.transform.childCount > 0)
         {
-            //print("AVALE ");
             Destroy(fruitSocket.transform.GetChild(0).gameObject);
         }
+        //Tongue bounces on body
         else if (target.gameObject.tag == "LizardBody" && isCurrentlyShooting == true && fruitSocket.transform.childCount > 0)
         {
-            print("TEST");
-            CancelInvoke("ShootTongue");
-            InvokeRepeating("RetractTongue", 0, tongueSmooth);
-            isRetracting = true;
+            RetractTongue();
         }
         
         print(target.gameObject.tag);
 
     }
 
+
+
     void OnTriggerEnter(Collider target)
     {
+        //When the tongue comes back
         if (target.gameObject.tag == "TongueSocket" && isCurrentlyShooting == true)
         {
             Vector3 vect = new Vector3(0, 0, 0);
@@ -154,6 +170,7 @@ public class TongueController : MonoBehaviour
     //Retard proofing
     void OnTriggerExit(Collider target)
     {
+        //Fix a bug whne the tongue is really close
         if (target.gameObject.tag == "TongueSocket" && isCurrentlyShooting == true && isRetracting == true)
         {
             Vector3 vect = new Vector3(0, 0, 0);
@@ -170,6 +187,7 @@ public class TongueController : MonoBehaviour
 
     void OnCollisionExit(Collision target)
     {
+        //Trigger off thevariable to prevent the player from shooting in the wall
         if (target.gameObject.tag == "Bounce")
         {
             isColliding = false;
