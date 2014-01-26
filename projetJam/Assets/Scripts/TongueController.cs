@@ -16,6 +16,7 @@ public class TongueController : MonoBehaviour
 
     public Pawn pawn;
     public PlayerInput input;
+    public GameObject tongueExtensible;
 
     //Input
     float lastGrabAxisValue = 0;
@@ -87,6 +88,12 @@ public class TongueController : MonoBehaviour
 
         transform.position = transform.position + movement;
 
+        /*movement = Vector3.Scale(movement, transform.forward);
+        movement.x = 0;
+        movement.z = 0;
+        print(movement.y);
+        //tongueExtensible.transform.localScale = movement;*/
+        print(tongueExtensible.transform.localScale);
         //Max distance 
         if ((transform.position - pawn.TongueSocket.gameObject.transform.position).magnitude > maxTongueDistance || Time.time - tongueElapsedTime > tongueTimeOut)
         {
